@@ -1,0 +1,26 @@
+#include <iostream>
+#include <vector>
+using namespace std;
+void mochila_combinatorio(const vector<int>& pesos, const vector<int>& valores, int capacidad, int n, int start, vector<bool>& chosen, int peso_actual, int valor_actual, int& max_valor) {
+    if (peso_actual > capacidad) {
+        return;
+    }
+    max_valor = max(max_valor, valor_actual);
+    for (int i = start; i < n; ++i) {
+        chosen[i] = true;
+        mochila_combinatorio(pesos, valores, capacidad, n, i + 1, chosen, peso_actual + pesos[i], valor_actual + valores[i], max_valor);
+        chosen[i] = false;
+    }
+}
+
+int main() {
+    vector<int> pesos = {1, 3, 4, 5};
+    vector<int> valores = {1, 4, 5, 7};
+    vector<bool> chosen(pesos.size(), false);
+    int capacidad = 7;
+    int n = pesos.size();
+    int max_valor = 0;
+    mochila_combinatorio(pesos, valores, capacidad, n, 0,chosen, 0, 0, max_valor);
+    cout << "Valor máximo: " << max_valor << endl;
+    return 0;
+}
